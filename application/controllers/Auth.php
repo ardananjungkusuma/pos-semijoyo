@@ -6,14 +6,14 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!empty($this->session->userdata('level'))) {
-            redirect('main', 'refresh');
-        }
         $this->load->model('auth_model');
     }
 
     public function index()
     {
+        if (!empty($this->session->userdata('level'))) {
+            redirect('main');
+        }
         $data['title'] = 'Login Page';
         $this->load->view('auth/header', $data);
         $this->load->view('auth/login');
@@ -21,11 +21,17 @@ class Auth extends CI_Controller
 
     public function login()
     {
+        if (!empty($this->session->userdata('level'))) {
+            redirect('main');
+        }
         redirect('auth', 'refresh');
     }
 
     public function prosesLogin()
     {
+        if (!empty($this->session->userdata('level'))) {
+            redirect('main');
+        }
         $username = htmlspecialchars($this->input->post('username'));
         $password = htmlspecialchars(MD5($this->input->post('password')));
 
@@ -49,6 +55,6 @@ class Auth extends CI_Controller
     public function logout()
     {
         $this->session->sess_destroy();
-        redirect('auth', 'refresh');
+        redirect('auth');
     }
 }

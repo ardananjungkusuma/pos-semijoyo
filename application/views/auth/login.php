@@ -9,6 +9,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Semi Joyo Login</h1>
                             </div>
+                            <img src="<?= base_url() ?>assets/img/gambar_pos/default.png" width="30%" style="display: block;margin: 0 auto;">
                             <?= $this->session->flashdata('message'); ?><br>
                             <form class="user" action="<?= base_url() ?>auth/prosesLogin" method="POST">
                                 <div class="form-group">

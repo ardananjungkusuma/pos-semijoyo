@@ -6,8 +6,8 @@ class Main extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!empty($this->session->userdata('level'))) {
-            redirect('auth', 'refresh');
+        if (empty($this->session->userdata('level'))) {
+            redirect('auth');
         }
         $this->load->model('main_model');
     }

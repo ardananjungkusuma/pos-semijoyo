@@ -1,28 +1,26 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pemasukan extends CI_Controller
+class Distributor extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('pemasukan_model');
-        $this->load->library('form_validation');
-        $status_login = $this->session->userdata('status');
-        if ($status_login == 'admin') {
-            redirect('admin', 'refresh');
-        } elseif (empty($status_login)) {
-            redirect('auth', 'refresh');
+        if (empty($this->session->userdata('level'))) {
+            redirect('auth');
         }
+        $this->load->model('distributor_model');
     }
 
     public function index()
     {
-        $data['title'] = 'Pemasukan';
-        $id = $this->session->userdata('id_user');
-        $data['pemasukan'] = $this->pemasukan_model->getAllPemasukanById($id);
-        $this->load->view('user/header-user', $data);
-        $this->load->view('pemasukan/index', $data);
+        $data['title'] = 'Semi Joyo';
+        $data['distributor'] = $this->distributor_model->getAllDistributor();
+        $this->load->view('main/header', $data);
+        $this->load->view('main/sidebar');
+        $this->load->view('main/topbar');
+        $this->load->view('main/distributor/index');
+        $this->load->view('main/footer');
     }
 
     public function tambah()

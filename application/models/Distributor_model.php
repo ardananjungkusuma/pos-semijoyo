@@ -2,12 +2,12 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class pemasukan_model extends CI_Model
+class Distributor_model extends CI_Model
 {
 
-    public function getAllPemasukan()
+    public function getAllDistributor()
     {
-        $query = $this->db->query("SELECT * FROM tbl_pemasukan as tp JOIN user u ON tp.id_user = u.id_user");
+        $query = $this->db->query("SELECT * FROM distributor");
         return $query->result_array();
     }
 

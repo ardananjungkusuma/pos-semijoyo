@@ -25,47 +25,53 @@ class Distributor extends CI_Controller
 
     public function tambah()
     {
-        $data['title'] = 'Form Menambahkan Data Pemasukan';
+        $data['title'] = 'Semi Joyo';
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('nama_pemasukan', 'Nama_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('kategori_pemasukan', 'Kategori_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('tanggal_pemasukan', 'Tanggal_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('jumlah_pemasukan', 'Jumlah_pemasukan', 'trim|required');
+        $this->form_validation->set_rules('nama_distributor', 'nama_distributor', 'trim|required');
+        $this->form_validation->set_rules('no_telpon', 'no_telpon', 'trim|required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('user/header-user', $data);
-            $this->load->view('pemasukan', $data);
+            $this->load->view('main/header', $data);
+            $this->load->view('main/sidebar');
+            $this->load->view('main/topbar');
+            $this->load->view('main/distributor/tambah');
+            $this->load->view('main/footer');
         } else {
-            $this->pemasukan_model->tambahPemasukan();
+            $this->distributor_model->tambahDistributor();
             $this->session->set_flashdata('flash-data', 'ditambahkan');
-            redirect('pemasukan', 'refresh');
+            redirect('distributor');
         }
     }
 
     public function ubah($id)
     {
-        $data['title'] = "Edit Pemasukan";
-        $data['kategori'] = ['Gaji', 'Bonus', 'Orang Tua', 'Dari Tabungan', 'Lain lain'];
-        $data['pemasukan'] = $this->pemasukan_model->getPemasukanById($id);
-        $this->form_validation->set_rules('nama_pemasukan', 'Nama_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('kategori_pemasukan', 'Kategori_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('tanggal_pemasukan', 'Tanggal_pemasukan', 'trim|required');
-        $this->form_validation->set_rules('jumlah_pemasukan', 'Jumlah_pemasukan', 'trim|required');
+        $data['title'] = 'Semi Joyo';
+        $data['distributor'] = $this->distributor_model->getDistributorById($id);
+        $this->load->view('main/header', $data);
+        $this->load->view('main/sidebar');
+        $this->load->view('main/topbar');
+        $this->load->view('main/distributor/ubah');
+        $this->load->view('main/footer');
+    }
+
+    public function prosesUbah()
+    {
+        $this->form_validation->set_rules('nama_distributor', 'nama_distributor', 'trim|required');
+        $this->form_validation->set_rules('no_telpon', 'no_telpon', 'trim|required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('user/header-user', $data);
-            $this->load->view('pemasukan/ubah', $data);
+            redirect('distributor');
         } else {
-            $this->pemasukan_model->ubahPemasukan();
+            $this->distributor_model->ubahDistributor();
             $this->session->set_flashdata('flash-data', 'Diedit');
-            redirect('pemasukan', 'refresh');
+            redirect('distributor');
         }
     }
 
     public function hapus($id)
     {
-        $this->pemasukan_model->hapusPemasukan($id);
+        $this->distributor_model->hapusDistributor($id);
         $this->session->set_flashdata('flash-data', 'Dihapus');
-        redirect('pemasukan', 'refresh');
+        redirect('distributor');
     }
 }

@@ -8,8 +8,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Distributor</h6>
     </div>
     <div class="card-body">
-        <a href="#" class="btn btn-sm btn-success shadow-sm mb-3"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
-        <a href="<?= base_url() ?>distributor/tambah" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Semua Data</a>
+        <a href="<?= base_url() ?>distributor/tambah" class="btn btn-sm btn-success shadow-sm mb-3"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <a href="" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Semua Data</a>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="listDistributor">
                 <thead style="background-color: #4e73df;color:white">
@@ -28,7 +28,7 @@
                             <td><?= $d['nama_distributor'] ?></td>
                             <td><?= $d['no_telpon'] ?></td>
                             <td><?= $d['alamat'] ?></td>
-                            <td><a href="<?= base_url() ?>distributor/edit/<?= $d['id_distributor'] ?>" class="btn btn-success">Edit</a>
+                            <td><a href="<?= base_url() ?>distributor/ubah/<?= $d['id_distributor'] ?>" class="btn btn-success">Edit</a>
                                 <a href="<?= base_url() ?>distributor/hapus/<?= $d['id_distributor'] ?>" onclick="return confirm('Jika data distributor dihapus maka barang yang distok oleh distributor ikut terhapus juga. Apakah Anda Yakin Ingin Menghapus <?= $d['nama_distributor'] ?>?');" class="btn btn-danger">Hapus</a></td>
                         </tr>
                     <?php

@@ -11,117 +11,41 @@ class Distributor_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getAllPemasukanById($id)
+    public function getDistributorById($id)
     {
-        return $this->db->get_where('tbl_pemasukan', ['id_user' => $id])->result_array();
+        $query = $this->db->query("SELECT * FROM distributor WHERE id_distributor = $id");
+        return $query->row();
     }
 
-    public function getPemasukanById($id)
+    public function tambahDistributor()
     {
-        return $this->db->get_where('tbl_pemasukan', ['id_pemasukan' => $id])->row();
-    }
-
-    public function tambahPemasukan()
-    {
-        $id_user = $this->session->userdata('id_user');
-        $jumlah_pemasukan = $this->input->post('jumlah_pemasukan', true);
+        if (empty($this->input->post('alamat'))) {
+            $alamat = 'None';
+        } else {
+            $alamat = $this->input->post('alamat');
+        }
         $data = [
-            "id_user" => $id_user,
-            "nama_pemasukan" => $this->input->post('nama_pemasukan', true),
-            "kategori_pemasukan" => $this->input->post('kategori_pemasukan', true),
-            "tanggal_pemasukan" => $this->input->post('tanggal_pemasukan', true),
-            "jumlah_pemasukan" => $jumlah_pemasukan
+            "nama_distributor" => $this->input->post('nama_distributor', true),
+            "no_telpon" => $this->input->post('no_telpon', true),
+            "alamat" => $alamat
         ];
-        $this->db->insert('tbl_pemasukan', $data);
-
-        $user = $this->db->query("SELECT * FROM user WHERE id_user = $id_user");
-        foreach ($user->result_array() as $usr) {
-            $saldolama = $usr['saldo'];
-            $pemasukanlama = $usr['total_pemasukan'];
-        }
-        $saldo_baru = $saldolama + $jumlah_pemasukan;
-        $total_pemasukan_baru = $pemasukanlama + $jumlah_pemasukan;
-        $dataBaruUser = [
-            "id_user" => $this->session->userdata('id_user'),
-            "saldo" => $saldo_baru,
-            "total_pemasukan" => $total_pemasukan_baru
-        ];
-        $this->db->where('id_user', $id_user);
-        $this->db->update('user', $dataBaruUser);
+        $this->db->insert('distributor', $data);
     }
 
-    public function hapusPemasukan($id)
+    public function hapusDistributor($id)
     {
-        $id_user = $this->session->userdata('id_user');
-        $getPemasukanLama = $this->db->query("SELECT * FROM tbl_pemasukan WHERE id_pemasukan = $id");
-        foreach ($getPemasukanLama->result_array() as $pmsknlm) {
-            $jmlPemasukanLama = $pmsknlm['jumlah_pemasukan'];
-        }
-        $user = $this->db->query("SELECT * FROM user WHERE id_user = $id_user");
-        foreach ($user->result_array() as $usr) {
-            $saldolama = $usr['saldo'];
-            $pemasukanlama = $usr['total_pemasukan'];
-        }
-        $saldo_baru = $saldolama - $jmlPemasukanLama;
-        $total_pemasukan_baru = $pemasukanlama - $jmlPemasukanLama;
-        $dataBaruUser = [
-            "id_user" => $this->session->userdata('id_user'),
-            "saldo" => $saldo_baru,
-            "total_pemasukan" => $total_pemasukan_baru
-        ];
-        $this->db->where('id_user', $id_user);
-        $this->db->update('user', $dataBaruUser);
-
-        $this->db->where('id_pemasukan', $id);
-        $this->db->delete('tbl_pemasukan');
+        $this->db->where('id_distributor', $id);
+        $this->db->delete('distributor');
     }
 
-    public function ubahPemasukan()
+    public function ubahDistributor()
     {
-        $id_user = $this->session->userdata('id_user');
-        $id_pemasukan = $this->input->post('id_pemasukan', true);
-        $getPemasukanLama = $this->db->query("SELECT * FROM tbl_pemasukan WHERE id_pemasukan = $id_pemasukan");
-        foreach ($getPemasukanLama->result_array() as $pmsknlm) {
-            $jmlPemasukanLama = $pmsknlm['jumlah_pemasukan'];
-        }
-        $user = $this->db->query("SELECT * FROM user WHERE id_user = $id_user");
-        foreach ($user->result_array() as $usr) {
-            $saldolama = $usr['saldo'];
-            $pemasukanlama = $usr['total_pemasukan'];
-        }
-        $saldo_baru = $saldolama - $jmlPemasukanLama;
-        $total_pemasukan_baru = $pemasukanlama - $jmlPemasukanLama;
-        $dataBaruUser = [
-            "id_user" => $this->session->userdata('id_user'),
-            "saldo" => $saldo_baru,
-            "total_pemasukan" => $total_pemasukan_baru
-        ];
-        $this->db->where('id_user', $id_user);
-        $this->db->update('user', $dataBaruUser);
-
-        $jumlah_pemasukan = $this->input->post('jumlah_pemasukan', true);
         $data = [
-            "nama_pemasukan" => $this->input->post('nama_pemasukan', true),
-            "kategori_pemasukan" => $this->input->post('kategori_pemasukan', true),
-            "tanggal_pemasukan" => $this->input->post('tanggal_pemasukan', true),
-            "jumlah_pemasukan" => $jumlah_pemasukan
+            "nama_distributor" => $this->input->post('nama_distributor', true),
+            "no_telpon" => $this->input->post('no_telpon', true),
+            "alamat" => $this->input->post('alamat', true)
         ];
-        $this->db->where('id_pemasukan', $id_pemasukan);
-        $this->db->update('tbl_pemasukan', $data);
-
-        $user = $this->db->query("SELECT * FROM user WHERE id_user = $id_user");
-        foreach ($user->result_array() as $usr) {
-            $saldolama = $usr['saldo'];
-            $pemasukanlama = $usr['total_pemasukan'];
-        }
-        $saldo_baru = $saldolama + $jumlah_pemasukan;
-        $total_pemasukan_baru = $pemasukanlama + $jumlah_pemasukan;
-        $dataBaruUser = [
-            "id_user" => $this->session->userdata('id_user'),
-            "saldo" => $saldo_baru,
-            "total_pemasukan" => $total_pemasukan_baru
-        ];
-        $this->db->where('id_user', $id_user);
-        $this->db->update('user', $dataBaruUser);
+        $this->db->where('id_distributor', $this->input->post('id_distributor'));
+        $this->db->update('distributor', $data);
     }
 }

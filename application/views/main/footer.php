@@ -49,9 +49,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#listDistributor').DataTable({
-      responsive: true
-    });
+    $('#listDistributor').DataTable();
+    $('#listPengutang').DataTable();
   });
 </script>
 

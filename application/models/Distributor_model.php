@@ -20,7 +20,7 @@ class Distributor_model extends CI_Model
     public function tambahDistributor()
     {
         if (empty($this->input->post('alamat'))) {
-            $alamat = 'None';
+            $alamat = '-';
         } else {
             $alamat = $this->input->post('alamat');
         }

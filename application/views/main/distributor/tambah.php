@@ -19,6 +19,7 @@
                 <input type="text" id="alamat" name="alamat" class="form-control mb-2" placeholder="Alamat">
                 <small>*Alamat Tidak Wajib Diisi</small>
             </div>
+            <a href="<?= base_url() ?>distributor" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
             <button type="submit" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Data</button>
         </form>
     </div>

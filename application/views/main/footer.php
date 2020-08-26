@@ -51,6 +51,7 @@
   $(document).ready(function() {
     $('#listDistributor').DataTable();
     $('#listPengutang').DataTable();
+    $('#listBarang').DataTable();
   });
 </script>
 

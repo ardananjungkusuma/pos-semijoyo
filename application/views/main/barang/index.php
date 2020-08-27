@@ -17,7 +17,7 @@
                         <th scope="col">Nama Barang</th>
                         <th scope="col">Nama Distributor</th>
                         <th scope="col">Jumlah Barang</th>
-                        <th scope="col">Harga Barang</th>
+                        <th scope="col">Total Harga Barang</th>
                         <th scope="col">Tanggal Pembelian</th>
                         <th scope="col">Aksi</th>
                     </tr>
@@ -33,7 +33,7 @@
                             <td><?= $b['harga_barang'] ?></td>
                             <td><?= $b['tanggal_beli'] ?></td>
                             <td><a href="<?= base_url() ?>barang/ubah/<?= $b['id_barang'] ?>" class="btn btn-success">Edit</a>
-                                <a href="<?= base_url() ?>barang/hapus/<?= $b['id_barang'] ?>" onclick="return confirm('Jika data barang dihapus maka barang yang distok oleh barang ikut terhapus juga. Apakah Anda Yakin Ingin Menghapus <?= $b['nama_barang'] ?>?');" class="btn btn-danger">Hapus</a></td>
+                                <a href="<?= base_url() ?>barang/hapus/<?= $b['id_barang'] ?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus <?= $b['nama_barang'] ?>?');" class="btn btn-danger">Hapus</a></td>
                         </tr>
                     <?php
                     endforeach;

@@ -11,50 +11,39 @@ class Barang_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getHutangById($id)
+    public function getBarangById($id)
     {
-        $query = $this->db->query("SELECT * FROM hutang WHERE id_hutang = $id");
+        $query = $this->db->query("SELECT * FROM barang b JOIN distributor d ON b.id_distributor = d.id_distributor WHERE b.id_barang = $id");
         return $query->row();
     }
 
-    public function tambahHutang()
-    {
-        if (empty($this->input->post('alamat'))) {
-            $alamat = '-';
-        } else {
-            $alamat = $this->input->post('alamat');
-        }
-        if (empty($this->input->post('no_telpon'))) {
-            $no_telpon = '-';
-        } else {
-            $no_telpon = $this->input->post('no_telpon');
-        }
-        $data = [
-            "nama_pengutang" => $this->input->post('nama_pengutang', true),
-            "no_telpon" => $no_telpon,
-            "alamat" => $alamat,
-            "tanggal_hutang" => date('d-m-Y'),
-            "jumlah_hutang" => $this->input->post('jumlah_hutang')
-        ];
-        $this->db->insert('hutang', $data);
-    }
-
-    public function hapusHutang($id)
-    {
-        $this->db->where('id_hutang', $id);
-        $this->db->delete('hutang');
-    }
-
-    public function ubahHutang()
+    public function tambahBarang()
     {
         $data = [
-            "nama_pengutang" => $this->input->post('nama_pengutang', true),
-            "no_telpon" =>  $this->input->post('no_telpon', true),
-            "alamat" => $this->input->post('alamat', true),
-            "jumlah_hutang" => $this->input->post('jumlah_hutang'),
-            "status" => $this->input->post('status'),
+            "id_distributor" => $this->input->post('id_distributor', true),
+            "nama_barang" => $this->input->post('nama_barang', true),
+            "jumlah_barang" => $this->input->post('jumlah_barang', true),
+            "harga_barang" => $this->input->post('harga_barang'),
+            "tanggal_beli" => date('d-m-Y')
         ];
-        $this->db->where('id_hutang', $this->input->post('id_hutang'));
-        $this->db->update('hutang', $data);
+        $this->db->insert('barang', $data);
+    }
+
+    public function hapusBarang($id)
+    {
+        $this->db->where('id_barang', $id);
+        $this->db->delete('barang');
+    }
+
+    public function ubahBarang()
+    {
+        $data = [
+            "id_distributor" => $this->input->post('id_distributor', true),
+            "nama_barang" => $this->input->post('nama_barang', true),
+            "jumlah_barang" => $this->input->post('jumlah_barang', true),
+            "harga_barang" => $this->input->post('harga_barang')
+        ];
+        $this->db->where('id_barang', $this->input->post('id_barang'));
+        $this->db->update('barang', $data);
     }
 }

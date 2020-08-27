@@ -10,6 +10,7 @@ class Barang extends CI_Controller
             redirect('auth');
         }
         $this->load->model('barang_model');
+        $this->load->model('distributor_model');
     }
 
     public function index()
@@ -26,52 +27,57 @@ class Barang extends CI_Controller
     public function tambah()
     {
         $data['title'] = 'Semi Joyo';
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('nama_pengutang', 'nama_pengutang', 'trim|required');
-        $this->form_validation->set_rules('jumlah_hutang', 'jumlah_hutang', 'trim|required|numeric');
+        $data['distributor'] = $this->distributor_model->getAllDistributor();
+        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'trim|required');
+        $this->form_validation->set_rules('id_distributor', 'id_distributor', 'trim|required|numeric');
+        $this->form_validation->set_rules('jumlah_barang', 'jumlah_barang', 'trim|required|numeric');
+        $this->form_validation->set_rules('harga_barang', 'harga_barang', 'trim|required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('main/header', $data);
             $this->load->view('main/sidebar');
             $this->load->view('main/topbar');
-            $this->load->view('main/hutang/tambah');
+            $this->load->view('main/barang/tambah');
             $this->load->view('main/footer');
         } else {
-            $this->hutang_model->tambahHutang();
+            $this->barang_model->tambahBarang();
             $this->session->set_flashdata('flash-data', 'ditambahkan');
-            redirect('hutang');
+            redirect('barang');
         }
     }
 
     public function ubah($id)
     {
         $data['title'] = 'Semi Joyo';
-        $data['hutang'] = $this->hutang_model->getHutangById($id);
+        $data['barang'] = $this->barang_model->getBarangById($id);
+        $data['distributor'] = $this->distributor_model->getAllDistributor();
         $this->load->view('main/header', $data);
         $this->load->view('main/sidebar');
         $this->load->view('main/topbar');
-        $this->load->view('main/hutang/ubah');
+        $this->load->view('main/barang/ubah');
         $this->load->view('main/footer');
     }
 
     public function prosesUbah()
     {
-        $this->form_validation->set_rules('nama_pengutang', 'nama_pengutang', 'trim|required');
-        $this->form_validation->set_rules('jumlah_hutang', 'jumlah_hutang', 'trim|required|numeric');
+        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'trim|required');
+        $this->form_validation->set_rules('id_distributor', 'id_distributor', 'trim|required|numeric');
+        $this->form_validation->set_rules('jumlah_barang', 'jumlah_barang', 'trim|required|numeric');
+        $this->form_validation->set_rules('harga_barang', 'harga_barang', 'trim|required|numeric');
 
         if ($this->form_validation->run() == FALSE) {
-            redirect('hutang');
+            redirect('barang');
         } else {
-            $this->hutang_model->ubahHutang();
+            $this->barang_model->ubahBarang();
             $this->session->set_flashdata('flash-data', 'Diedit');
-            redirect('hutang');
+            redirect('barang');
         }
     }
 
     public function hapus($id)
     {
-        $this->hutang_model->hapusHutang($id);
+        $this->barang_model->hapusBarang($id);
         $this->session->set_flashdata('flash-data', 'Dihapus');
-        redirect('hutang');
+        redirect('barang');
     }
 }

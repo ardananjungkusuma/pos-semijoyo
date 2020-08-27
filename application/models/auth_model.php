@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class auth_model extends CI_Model
+class Auth_model extends CI_Model
 {
     function login($username, $password)
     {

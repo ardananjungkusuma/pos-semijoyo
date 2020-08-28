@@ -74,4 +74,13 @@ class Distributor extends CI_Controller
         $this->session->set_flashdata('flash-data', 'Dihapus');
         redirect('distributor');
     }
+
+    public function cetakPDF()
+    {
+        $data['distributor'] = $this->distributor_model->getAllDistributor();
+        $this->load->library('pdf');
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "laporan_distributor_" . date('d-m-Y') . ".pdf";
+        $this->pdf->load_view('main/distributor/pdf', $data);
+    }
 }

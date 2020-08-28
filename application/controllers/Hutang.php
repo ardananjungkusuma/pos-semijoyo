@@ -74,4 +74,13 @@ class Hutang extends CI_Controller
         $this->session->set_flashdata('flash-data', 'Dihapus');
         redirect('hutang');
     }
+
+    public function cetakPDF()
+    {
+        $data['hutang'] = $this->hutang_model->getAllHutang();
+        $this->load->library('pdf');
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "laporan_hutang_" . date('d-m-Y') . ".pdf";
+        $this->pdf->load_view('main/hutang/pdf', $data);
+    }
 }

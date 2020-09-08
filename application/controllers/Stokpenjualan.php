@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Barang extends CI_Controller
+class Stokpenjualan extends CI_Controller
 {
     public function __construct()
     {
@@ -9,41 +9,39 @@ class Barang extends CI_Controller
         if (empty($this->session->userdata('level'))) {
             redirect('auth');
         }
+        $this->load->model('stokpenjualan_model');
         $this->load->model('barang_model');
-        $this->load->model('distributor_model');
     }
 
     public function index()
     {
         $data['title'] = 'Semi Joyo';
-        $data['barang'] = $this->barang_model->getAllBarang();
+        $data['stok'] = $this->stokpenjualan_model->getAllStok();
         $this->load->view('main/header', $data);
         $this->load->view('main/sidebar');
         $this->load->view('main/topbar');
-        $this->load->view('main/barang/index');
+        $this->load->view('main/stokpenjualan/index');
         $this->load->view('main/footer');
     }
 
     public function tambah()
     {
         $data['title'] = 'Semi Joyo';
-        $data['distributor'] = $this->distributor_model->getAllDistributor();
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'trim|required');
-        $this->form_validation->set_rules('id_distributor', 'id_distributor', 'trim|required|numeric');
-        $this->form_validation->set_rules('satuan_barang', 'satuan_barang', 'trim|required');
-        $this->form_validation->set_rules('jumlah_barang', 'jumlah_barang', 'trim|required|numeric');
-        $this->form_validation->set_rules('harga_barang', 'harga_barang', 'trim|required|numeric');
+        $data['barang'] = $this->barang_model->getNamaDistinct();
+        $this->form_validation->set_rules('nama_stok', 'nama_stok', 'trim|required');
+        $this->form_validation->set_rules('harga_stok', 'harga_stok', 'trim|required|numeric');
+        $this->form_validation->set_rules('satuan_stok', 'satuan_stok', 'trim|required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('main/header', $data);
             $this->load->view('main/sidebar');
             $this->load->view('main/topbar');
-            $this->load->view('main/barang/tambah');
+            $this->load->view('main/stokpenjualan/tambah');
             $this->load->view('main/footer');
         } else {
-            $this->barang_model->tambahBarang();
+            $this->stokpenjualan_model->tambahStok();
             $this->session->set_flashdata('flash-data', 'ditambahkan');
-            redirect('barang');
+            redirect('stokpenjualan');
         }
     }
 
@@ -64,7 +62,6 @@ class Barang extends CI_Controller
         $this->form_validation->set_rules('nama_barang', 'nama_barang', 'trim|required');
         $this->form_validation->set_rules('id_distributor', 'id_distributor', 'trim|required|numeric');
         $this->form_validation->set_rules('jumlah_barang', 'jumlah_barang', 'trim|required|numeric');
-        $this->form_validation->set_rules('satuan_barang', 'satuan_barang', 'trim|required');
         $this->form_validation->set_rules('harga_barang', 'harga_barang', 'trim|required|numeric');
 
         if ($this->form_validation->run() == FALSE) {

@@ -1,6 +1,6 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Data Barang</h1>
+    <h1 class="h3 mb-0 text-gray-800">Data Restock Barang</h1>
 </div>
 
 <div class="card shadow mb-4">
@@ -29,7 +29,7 @@
                         <tr>
                             <td><?= $b['nama_barang'] ?></td>
                             <td><?= $b['nama_distributor'] ?></td>
-                            <td><?= $b['jumlah_barang'] ?></td>
+                            <td><?= $b['jumlah_barang'] ?> <?= $b['satuan_barang'] ?></td>
                             <td><?= number_format($b['harga_barang'], 0, ',', '.') ?></td>
                             <td><?= $b['tanggal_beli'] ?></td>
                             <td><a href="<?= base_url() ?>barang/ubah/<?= $b['id_barang'] ?>" class="btn btn-success">Edit</a>

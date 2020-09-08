@@ -17,11 +17,18 @@ class Barang_model extends CI_Model
         return $query->row();
     }
 
+    public function getNamaDistinct()
+    {
+        $query = $this->db->query("SELECT DISTINCT nama_barang FROM barang");
+        return $query->result_array();
+    }
+
     public function tambahBarang()
     {
         $data = [
             "id_distributor" => $this->input->post('id_distributor', true),
             "nama_barang" => $this->input->post('nama_barang', true),
+            "satuan_barang" => $this->input->post('satuan_barang', true),
             "jumlah_barang" => $this->input->post('jumlah_barang', true),
             "harga_barang" => $this->input->post('harga_barang'),
             "tanggal_beli" => date('d-m-Y')
@@ -40,6 +47,7 @@ class Barang_model extends CI_Model
         $data = [
             "id_distributor" => $this->input->post('id_distributor', true),
             "nama_barang" => $this->input->post('nama_barang', true),
+            "satuan_barang" => $this->input->post('satuan_barang', true),
             "jumlah_barang" => $this->input->post('jumlah_barang', true),
             "harga_barang" => $this->input->post('harga_barang')
         ];

@@ -1,11 +1,11 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Data Barang</h1>
+    <h1 class="h3 mb-0 text-gray-800">Data Restock Barang</h1>
 </div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tambah Data Barang</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Tambah Data Restock Barang</h6>
     </div>
     <div class="card-body">
         <b style="color: red;"><?= validation_errors(); ?></b>
@@ -22,6 +22,8 @@
                 </select>
                 <label>Jumlah Barang</label>
                 <input type="number" id="jumlah_barang" name="jumlah_barang" class="form-control mb-2" placeholder="0" required>
+                <label>Satuan Barang</label>
+                <input type="text" id="satuan_barang" name="satuan_barang" class="form-control mb-2" placeholder="Dus/Kg" required>
                 <label>Harga Barang</label>
                 <input type="number" id="harga_barang" name="harga_barang" class="form-control mb-2" placeholder="0">
             </div>

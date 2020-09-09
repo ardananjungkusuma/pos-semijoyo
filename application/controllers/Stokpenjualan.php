@@ -48,44 +48,41 @@ class Stokpenjualan extends CI_Controller
     public function ubah($id)
     {
         $data['title'] = 'Semi Joyo';
-        $data['barang'] = $this->barang_model->getBarangById($id);
-        $data['distributor'] = $this->distributor_model->getAllDistributor();
+        $data['stok'] = $this->stokpenjualan_model->getStokById($id);
         $this->load->view('main/header', $data);
         $this->load->view('main/sidebar');
         $this->load->view('main/topbar');
-        $this->load->view('main/barang/ubah');
+        $this->load->view('main/stokpenjualan/ubah');
         $this->load->view('main/footer');
     }
 
     public function prosesUbah()
     {
-        $this->form_validation->set_rules('nama_barang', 'nama_barang', 'trim|required');
-        $this->form_validation->set_rules('id_distributor', 'id_distributor', 'trim|required|numeric');
-        $this->form_validation->set_rules('jumlah_barang', 'jumlah_barang', 'trim|required|numeric');
-        $this->form_validation->set_rules('harga_barang', 'harga_barang', 'trim|required|numeric');
+        $this->form_validation->set_rules('harga_stok', 'harga_stok', 'trim|required|numeric');
+        $this->form_validation->set_rules('satuan_stok', 'satuan_stok', 'trim|required');
 
         if ($this->form_validation->run() == FALSE) {
-            redirect('barang');
+            redirect('stokpenjualan');
         } else {
-            $this->barang_model->ubahBarang();
+            $this->stokpenjualan_model->ubahStok();
             $this->session->set_flashdata('flash-data', 'Diedit');
-            redirect('barang');
+            redirect('stokpenjualan');
         }
     }
 
     public function hapus($id)
     {
-        $this->barang_model->hapusBarang($id);
+        $this->stokpenjualan_model->hapusStok($id);
         $this->session->set_flashdata('flash-data', 'Dihapus');
-        redirect('barang');
+        redirect('stokpenjualan');
     }
 
     public function cetakPDF()
     {
-        $data['barang'] = $this->barang_model->getAllBarang();
+        $data['stok'] = $this->stokpenjualan_model->getAllStok();
         $this->load->library('pdf');
         $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan_barang_" . date('d-m-Y') . ".pdf";
-        $this->pdf->load_view('main/barang/pdf', $data);
+        $this->pdf->filename = "laporan_stokpenjualan_" . date('d-m-Y') . ".pdf";
+        $this->pdf->load_view('main/stokpenjualan/pdf', $data);
     }
 }

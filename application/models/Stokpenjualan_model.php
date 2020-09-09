@@ -36,7 +36,6 @@ class Stokpenjualan_model extends CI_Model
     public function ubahStok()
     {
         $data = [
-            "nama_stok" => $this->input->post('nama_stok', true),
             "harga_stok" => $this->input->post('harga_stok', true),
             "satuan_stok" => $this->input->post('satuan_stok', true)
         ];

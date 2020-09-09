@@ -12,7 +12,8 @@
         <form method="POST" enctype="multipart/form-data" action="<?= base_url() ?>stokpenjualan/tambah">
             <div class="form-group">
                 <label>Nama Stok Penjualan</label>
-                <select class="js-example-basic-single form-control" id="nama_stok" name="nama_stok">
+                <select class="js-example-basic-single form-control" id="nama_stok" name="nama_stok" required>
+                    <option value="" selected disabled hidden>Pilih Barang</option>
                     <?php foreach ($barang as $b) {
                     ?>
                         <option value="<?= $b['nama_barang'] ?>"><?= $b['nama_barang'] ?></option>

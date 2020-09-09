@@ -25,28 +25,24 @@
 
 <body>
     <center>
-        <h3>Data Restock Barang</h3><br>
+        <h3>Data Stok Penjualan</h3><br>
         <table>
             <thead style="background-color:dimgray;color:white">
                 <tr>
                     <th class="short">No</th>
-                    <th class="normal">Nama</th>
-                    <th class="normal">Nama Distributor</th>
-                    <th class="normal">Jumlah Barang</th>
-                    <th class="normal">Harga</th>
-                    <th class="normal">Tanggal Beli</th>
+                    <th class="normal">Nama Stok</th>
+                    <th class="normal">Harga Stok</th>
+                    <th class="normal">Satuan Stok</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $no = 1; ?>
-                <?php foreach ($barang as $b) : ?>
+                <?php foreach ($stok as $s) : ?>
                     <tr>
                         <td><?= $no; ?></td>
-                        <td><?= $b['nama_barang'] ?></td>
-                        <td><?= $b['nama_distributor'] ?></td>
-                        <td><?= $b['jumlah_barang'] ?> <?= $b['satuan_barang'] ?></td>
-                        <td><?= number_format($b['harga_barang'], 0, ',', '.') ?></td>
-                        <td><?= $b['tanggal_beli'] ?></td>
+                        <td><?= $s['nama_stok'] ?></td>
+                        <td><?= number_format($s['harga_stok'], 0, ',', '.') ?></td>
+                        <td><?= $s['satuan_stok'] ?></td>
                     </tr>
                     <?php $no++; ?>
                 <?php endforeach; ?>

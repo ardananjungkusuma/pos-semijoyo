@@ -13,15 +13,15 @@
                             <?= $this->session->flashdata('message'); ?><br>
                             <form class="user" action="<?= base_url() ?>auth/prosesLogin" method="POST">
                                 <div class="form-group">
-                                    <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email or Username" />
+                                    <input type="text" name="username" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Email or Username" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" />
+                                    <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password" />
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox small">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck" />
-                                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                        <input type="checkbox" onclick="passwordShowUnshow()" class="custom-control-input" id="customCheck" />
+                                        <label class="custom-control-label" for="customCheck">Show/Unshow Passowrd</label>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">

@@ -17,5 +17,14 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url() ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <script>
+        function passwordShowUnshow() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </head>

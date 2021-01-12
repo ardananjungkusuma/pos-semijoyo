@@ -25,12 +25,12 @@
             <input type="number" id="jumlah_beli" name="jumlah_beli" class="form-control mb-2" placeholder="0" required>
         </div>
         <a href="<?= base_url() ?>transaksi" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
-        <button class="btn btn-sm btn-primary shadow-sm mb-3" onclick="tambahBarang()"><i class="fas fa-download fa-sm text-white-50"></i> Tambah Barang</button>
+        <button class="btn btn-sm btn-primary shadow-sm mb-3" onclick="tambahBarang()"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Barang</button>
         <span class="float-right" style="font-weight: bold;font-size: 30px">
-            Total Harga : <span id="total_harga">0</span>
+            Total Harga : Rp. <span id="total_harga">0</span>
         </span>
-
-
+        <br>
+        <button class="btn btn-sm btn-success shadow-sm mb-3" onclick="cetakTransaksi()"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Transaksi</button>
         <!-- Tabel Total Transaksi -->
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="table_pembelian">
@@ -52,6 +52,14 @@
 <script>
     let num = 0;
     let harga = 0;
+    let input_jumlah_beli = document.getElementById("jumlah_beli");
+
+    input_jumlah_beli.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            tambahBarang();
+        }
+    });
 
     function tambahBarang() {
         let id_stok = $('#id_stok').val();
@@ -65,12 +73,12 @@
                 success: (hasil) => {
                     $("#table_pembelian").find('tbody')
                         .append(`<tr id="produk[${num}]">
-                                <td>${hasil.nama_stok}</td>
+                                <td id="name-product-${num}">${hasil.nama_stok}</td>
                                 <td>
-                                    <input class="form-control" type="number" id="qty_beli[${num}]" value="${jumlah_beli}">
+                                    <input class="form-control" name="qty_beli-${num}" type="number" id="qty_beli[${num}]" value="${jumlah_beli}">
                                 </td>
-                                <td>${hasil.harga_stok}</td>
-                                <td  id="subtotal[${num}]">${jumlah_beli * hasil.harga_stok}</td>
+                                <td id="price-${num}">${hasil.harga_stok}</td>
+                                <td id="subtotal-${num}">${jumlah_beli * hasil.harga_stok}</td>
                                 <td>
                                     <button class="btn btn-warning" onclick="editProduk('${num}')">Edit</button>
                                     <button class="btn btn-danger" onclick="hapusProduk('${num}')">Hapus</button>
@@ -88,16 +96,37 @@
     }
 
     function editProduk(id) {
-        let qty_update = $(`#qty_beli[${id}]`).val();
-        console.log(qty_update);
-        // document.getElementById(`subtotal[${id}]`).value()
+        let current_subtotal = document.getElementById(`subtotal-${id}`).innerText;
+        let current_qty_update = $(`[name="qty_beli-${id}"]`).val();
+        if (current_qty_update > 0) {
+            let current_price = document.getElementById(`price-${id}`).innerText;
+            harga -= current_subtotal;
+            harga += current_qty_update * current_price;
+            document.getElementById(`subtotal-${id}`).innerText = `${current_qty_update * current_price}`;
+            $('#total_harga').html(harga);
+        } else {
+            alert("Jumlah minimal 1");
+        }
     }
 
     function hapusProduk(id) {
-        let current_price = document.getElementById(`subtotal[${id}]`).innerText;
-        harga -= current_price;
+        let current_subtotal = document.getElementById(`subtotal-${id}`).innerText;
+        harga -= current_subtotal;
         $('#total_harga').html(harga);
         var row = document.getElementById(`produk[${id}]`);
         row.parentNode.removeChild(row);
+    }
+
+    function cetakTransaksi() {
+        let invoice = "INV" + new Date().getTime();
+        if (harga > 0) {
+            if (confirm("Yakin ingin Bayar?")) {
+                // Add all data to db and cetak
+                // var row = document.getElementById(`produk[${id}]`);
+                console.log(invoice2);
+            }
+        } else {
+            alert("Cetak Gagal (Transaksi Kosong)");
+        }
     }
 </script>

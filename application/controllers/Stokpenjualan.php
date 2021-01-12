@@ -85,4 +85,10 @@ class Stokpenjualan extends CI_Controller
         $this->pdf->filename = "laporan_stokpenjualan_" . date('d-m-Y') . ".pdf";
         $this->pdf->load_view('main/stokpenjualan/pdf', $data);
     }
+
+    public function getStokPenjualan()
+    {
+        $data = $this->stokpenjualan_model->getStokResultById($this->input->post('id_stok'));
+        echo json_encode($data);
+    }
 }

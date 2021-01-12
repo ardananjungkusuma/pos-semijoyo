@@ -19,6 +19,11 @@ class Hutang_model extends CI_Model
 
     public function tambahHutang()
     {
+        if (empty($this->input->post('catatan_hutang'))) {
+            $catatanHutang = "Tidak ada catatan";
+        } else {
+            $catatanHutang = $this->input->post('catatan_hutang');
+        }
         if (empty($this->input->post('alamat'))) {
             $alamat = '-';
         } else {
@@ -33,8 +38,10 @@ class Hutang_model extends CI_Model
             "nama_pengutang" => $this->input->post('nama_pengutang', true),
             "no_telpon" => $no_telpon,
             "alamat" => $alamat,
-            "tanggal_hutang" => date('d-m-Y'),
-            "jumlah_hutang" => $this->input->post('jumlah_hutang')
+            "tanggal_hutang" => date('y=m-d'),
+            "jumlah_hutang" => $this->input->post('jumlah_hutang'),
+            "catatan_hutang" => $catatanHutang,
+            "status" => "Belum Lunas"
         ];
         $this->db->insert('hutang', $data);
     }
@@ -51,6 +58,7 @@ class Hutang_model extends CI_Model
             "nama_pengutang" => $this->input->post('nama_pengutang', true),
             "no_telpon" =>  $this->input->post('no_telpon', true),
             "alamat" => $this->input->post('alamat', true),
+            "catatan_hutang" => $this->input->post('catatan_hutang'),
             "jumlah_hutang" => $this->input->post('jumlah_hutang'),
             "status" => $this->input->post('status'),
         ];

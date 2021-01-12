@@ -15,6 +15,7 @@
                 <input type="text" id="nama_barang" name="nama_barang" class="form-control mb-2" placeholder="Nama" required>
                 <label>Nama Distributor</label>
                 <select class="form-control" id="id_distributor" name="id_distributor">
+                    <option disabled selected>Pilih Distributor</option>
                     <?php foreach ($distributor as $d) {
                     ?>
                         <option value="<?= $d['id_distributor'] ?>"><?= $d['nama_distributor'] ?></option>
@@ -24,7 +25,7 @@
                 <input type="number" id="jumlah_barang" name="jumlah_barang" class="form-control mb-2" placeholder="0" required>
                 <label>Satuan Barang</label>
                 <input type="text" id="satuan_barang" name="satuan_barang" class="form-control mb-2" placeholder="Dus/Kg" required>
-                <label>Harga Barang</label>
+                <label>Total Harga Barang</label>
                 <input type="number" id="harga_barang" name="harga_barang" class="form-control mb-2" placeholder="0">
             </div>
             <a href="<?= base_url() ?>barang" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>

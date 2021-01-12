@@ -19,6 +19,9 @@
                 <label>Alamat</label>
                 <input type="text" id="alamat" name="alamat" class="form-control mb-2" placeholder="Alamat">
                 <small>*Alamat Tidak Wajib Diisi</small><br>
+                <label>Catatan Hutang</label>
+                <input type="text" id="catatan_hutang" name="catatan_hutang" class="form-control mb-2" placeholder="Catatan Hutang (ex : Hutang kurungan)">
+                <small>*Catatan Tidak Wajib Diisi</small><br>
                 <label>Jumlah Hutang</label>
                 <input type="number" id="jumlah_hutang" required name="jumlah_hutang" class="form-control mb-2" placeholder="500000">
             </div>

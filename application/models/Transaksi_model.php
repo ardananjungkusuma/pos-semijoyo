@@ -7,7 +7,7 @@ class Transaksi_model extends CI_Model
 
     public function getAllTransaksi()
     {
-        $query = $this->db->query("SELECT * FROM transaksi t JOIN transaksidetail td ON t.id_invoice = td.id_invoice");
+        $query = $this->db->query("SELECT * FROM transaksidetail");
         return $query->result_array();
     }
 

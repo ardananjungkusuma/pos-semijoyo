@@ -17,6 +17,11 @@ class Stokpenjualan_model extends CI_Model
         return $query->row();
     }
 
+    public function getStokResultById($id)
+    {
+        return $this->db->query("SELECT * FROM stokpenjualan WHERE id_stok = $id")->row();
+    }
+
     public function tambahStok()
     {
         $data = [

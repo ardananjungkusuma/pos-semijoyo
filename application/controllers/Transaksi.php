@@ -27,7 +27,7 @@ class Transaksi extends CI_Controller
     public function tambah()
     {
         $data['title'] = 'Semi Joyo';
-        $data['barang'] = $this->barang_model->getNamaDistinct();
+        $data['stok'] = $this->stokpenjualan_model->getAllStok();
         $this->form_validation->set_rules('nama_stok', 'nama_stok', 'trim|required');
         $this->form_validation->set_rules('harga_stok', 'harga_stok', 'trim|required|numeric');
         $this->form_validation->set_rules('satuan_stok', 'satuan_stok', 'trim|required');
@@ -36,7 +36,7 @@ class Transaksi extends CI_Controller
             $this->load->view('main/header', $data);
             $this->load->view('main/sidebar');
             $this->load->view('main/topbar');
-            $this->load->view('main/stokpenjualan/tambah');
+            $this->load->view('main/transaksi/tambah');
             $this->load->view('main/footer');
         } else {
             $this->stokpenjualan_model->tambahStok();

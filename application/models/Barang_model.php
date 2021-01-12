@@ -31,7 +31,7 @@ class Barang_model extends CI_Model
             "satuan_barang" => $this->input->post('satuan_barang', true),
             "jumlah_barang" => $this->input->post('jumlah_barang', true),
             "harga_barang" => $this->input->post('harga_barang'),
-            "tanggal_beli" => date('d-m-Y')
+            "tanggal_beli" => date('Y-m-d')
         ];
         $this->db->insert('barang', $data);
     }

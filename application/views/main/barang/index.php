@@ -25,13 +25,15 @@
                 <tbody>
                     <?php
                     foreach ($barang as $b) :
+                        $dateTime = new DateTime($b['tanggal_beli']);
+                        $dateTime = $dateTime->format('d-m-Y');
                     ?>
                         <tr>
                             <td><?= $b['nama_barang'] ?></td>
                             <td><?= $b['nama_distributor'] ?></td>
                             <td><?= $b['jumlah_barang'] ?> <?= $b['satuan_barang'] ?></td>
                             <td><?= number_format($b['harga_barang'], 0, ',', '.') ?></td>
-                            <td><?= $b['tanggal_beli'] ?></td>
+                            <td><?= $dateTime ?></td>
                             <td><a href="<?= base_url() ?>barang/ubah/<?= $b['id_barang'] ?>" class="btn btn-success">Edit</a>
                                 <a href="<?= base_url() ?>barang/hapus/<?= $b['id_barang'] ?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus <?= $b['nama_barang'] ?>?');" class="btn btn-danger">Hapus</a></td>
                         </tr>

@@ -17,7 +17,6 @@
                 <option value="Pilih Barang">Pilih Barang</option>
                 <?php foreach ($stok as $s) {
                 ?>
-
                     <option value="<?= $s['id_stok'] ?>"><?= $s['nama_stok'] ?></option>
                 <?php              } ?>
             </select>
@@ -43,17 +42,26 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="tabel_transaksi">
-                </tbody>
+                <form method="POST" id="transaksi_form">
+                    <tbody id="tabel_transaksi">
+                    </tbody>
+                    <!-- btn submit disini dan total tagihan disini -->
+                </form>
             </table>
         </div>
     </div>
 </div>
 <script>
-    let num = 0;
+    $(document).ready(function() {
+        $('#transaksi_form').on('submit', function(event) {
+            event.preventDefault();
+            let count_data = 0;
+
+        });
+    });
     let harga = 0;
     let input_jumlah_beli = document.getElementById("jumlah_beli");
-
+    let num = 0;
     input_jumlah_beli.addEventListener("keyup", function(event) {
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -64,6 +72,7 @@
     function tambahBarang() {
         let id_stok = $('#id_stok').val();
         let jumlah_beli = $('#jumlah_beli').val();
+        num = num + 1;
         if (jumlah_beli > 0) {
             $.ajax({
                 type: 'POST',
@@ -72,24 +81,38 @@
                 dataType: 'json',
                 success: (hasil) => {
                     $("#table_pembelian").find('tbody')
-                        .append(`<tr id="produk[${num}]">
-                                <td id="name-product-${num}">${hasil.nama_stok}</td>
+                        .append(`<tr id="produk_${num}">
+                                <td id="name-product-${num}">
+                                    ${hasil.nama_stok}
+                                </td>
                                 <td>
                                     <input class="form-control" name="qty_beli-${num}" type="number" id="qty_beli[${num}]" value="${jumlah_beli}">
                                 </td>
                                 <td id="price-${num}">${hasil.harga_stok}</td>
-                                <td id="subtotal-${num}">${jumlah_beli * hasil.harga_stok}</td>
+                                <td id="subtotal-${num}">
+                                    ${jumlah_beli * hasil.harga_stok}
+                                </td>
                                 <td>
                                     <button class="btn btn-warning" onclick="editProduk('${num}')">Edit</button>
                                     <button class="btn btn-danger" onclick="hapusProduk('${num}')">Hapus</button>
                                 </td>
-                             </tr>`);
+                                </tr>`);
+                    $("#table_pembelian").find('tbody')
+                        .append(
+                            `
+                            <tr id="form_${num}">
+                                <input class="nama_barang" type="hidden" name="hidden_nama_barang[]" id="nama_barang${num}" value="${hasil.nama_stok}">
+                                <input type="hidden" name="hidden_jumlah_barang[]" id="jumlah_barang${num}" value="${document.getElementById(`qty_beli[${num}]`).value}">
+                                <input type="hidden" name="hidden_harga_barang[]" id="harga_barang${num}" value="${document.getElementById(`subtotal-${num}`).innerText}">
+                            </tr>
+                            `
+                        );
                     harga += jumlah_beli * hasil.harga_stok;
                     $('#total_harga').html(harga);
                 }
             })
             $('#jumlah_beli').val('');
-            num++;
+
         } else {
             alert("Jumlah Beli Tidak Bisa Kurang Dari 0");
         }
@@ -103,6 +126,8 @@
             harga -= current_subtotal;
             harga += current_qty_update * current_price;
             document.getElementById(`subtotal-${id}`).innerText = `${current_qty_update * current_price}`;
+            document.getElementById(`harga_barang${id}`).value = `${current_qty_update * current_price}`;
+            document.getElementById(`jumlah_barang${id}`).value = `${current_qty_update}`;
             $('#total_harga').html(harga);
         } else {
             alert("Jumlah minimal 1");
@@ -113,17 +138,18 @@
         let current_subtotal = document.getElementById(`subtotal-${id}`).innerText;
         harga -= current_subtotal;
         $('#total_harga').html(harga);
-        var row = document.getElementById(`produk[${id}]`);
-        row.parentNode.removeChild(row);
+        $(`#produk_${id}`).remove();
+        $(`#form_${id}`).remove();
+        // var row = document.getElementById(`produk[${id}]`);
+        // row.parentNode.removeChild(row);
     }
 
     function cetakTransaksi() {
         let invoice = "INV" + new Date().getTime();
         if (harga > 0) {
             if (confirm("Yakin ingin Bayar?")) {
-                // Add all data to db and cetak
-                // var row = document.getElementById(`produk[${id}]`);
-                console.log(invoice2);
+
+                console.log(`${invoice}\n`);
             }
         } else {
             alert("Cetak Gagal (Transaksi Kosong)");

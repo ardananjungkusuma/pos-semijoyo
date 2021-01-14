@@ -85,4 +85,10 @@ class Transaksi extends CI_Controller
         $this->pdf->filename = "laporan_stokpenjualan_" . date('d-m-Y') . ".pdf";
         $this->pdf->load_view('main/stokpenjualan/pdf', $data);
     }
+
+    public function tambahTransaksi()
+    {
+        $this->transaksi_model->tambahTransaksi();
+        //return nota
+    }
 }

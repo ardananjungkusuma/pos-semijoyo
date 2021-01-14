@@ -27,15 +27,14 @@
                     foreach ($transaksi as $t) :
                     ?>
                         <tr>
-                            <td><?= $t['id_invoice'] ?></td>
+                            <td><?= $t['id_transaksi'] ?></td>
                             <td><?= $t['tanggal_transaksi'] ?></td>
-                            <td><?= $t['nama_barang'] ?></td>
-                            <td><?= $t['jumlah_barang'] ?></td>
-                            <td><?= number_format($t['harga_barang'], 0, ',', '.') ?></td>
+                            <td><?= $t['jam_transaksi'] ?></td>
+                            <td><?= $t['total_harga'] ?></td>
                             <td>
-                                <a href="<?= base_url() ?>transaksi/detail/<?= $t['id_invoice'] ?>" class="btn btn-warning">Detail</a>
-                                <a href="<?= base_url() ?>transaksi/ubah/<?= $t['id_invoice'] ?>" class="btn btn-success">Edit</a>
-                                <a href="<?= base_url() ?>transaksi/hapus/<?= $t['id_invoice'] ?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus <?= $t['id_invoice'] ?>?');" class="btn btn-danger">Hapus</a>
+                                <a href="<?= base_url() ?>transaksi/detail/<?= $t['id_transaksi'] ?>" class="btn btn-warning">Detail</a>
+                                <a href="<?= base_url() ?>transaksi/ubah/<?= $t['id_transaksi'] ?>" class="btn btn-success">Edit</a>
+                                <a href="<?= base_url() ?>transaksi/hapus/<?= $t['id_transaksi'] ?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus <?= $t['id_transaksi'] ?>?');" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
                     <?php

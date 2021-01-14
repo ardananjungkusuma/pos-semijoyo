@@ -13,7 +13,7 @@
             <label>Tanggal Pembelian : </label>
             <label id="date"><?= date('d-m-Y') ?></label><br>
             <label>Nama Distributor</label>
-            <select class="form-control" id="id_stok" name="id_stok" required>
+            <select class="js-example-basic-single form-control" id="id_stok" name="id_stok" required>
                 <option value="Pilih Barang">Pilih Barang</option>
                 <?php foreach ($stok as $s) {
                 ?>
@@ -25,29 +25,29 @@
         </div>
         <a href="<?= base_url() ?>transaksi" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
         <button class="btn btn-sm btn-primary shadow-sm mb-3" onclick="tambahBarang()"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Barang</button>
-        <span class="float-right" style="font-weight: bold;font-size: 30px">
-            Total Harga : Rp. <span id="total_harga">0</span>
-        </span>
-        <br>
-        <button class="btn btn-sm btn-success shadow-sm mb-3" onclick="cetakTransaksi()"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Transaksi</button>
         <!-- Tabel Total Transaksi -->
         <div class="table-responsive">
-            <table class="table table-striped table-bordered" id="table_pembelian">
-                <thead>
-                    <tr>
-                        <th>Nama Barang</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                        <th>Sub Total</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <form method="POST" id="transaksi_form">
+            <form method="POST" id="transaksi_form">
+                <table class="table table-striped table-bordered" id="table_pembelian">
+                    <thead>
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Sub Total</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
                     <tbody id="tabel_transaksi">
                     </tbody>
                     <!-- btn submit disini dan total tagihan disini -->
-                </form>
-            </table>
+                </table>
+                <input type="hidden" name="total_harga_form" id="total_harga_form" value="">
+                <button class="btn btn-sm btn-success shadow-sm mb-3 float-right" type="submit"><i class="fas fa-download fa-sm text-white-50"></i>Bayar & Cetak Transaksi</button>
+            </form>
+            <span class="float-left" style="font-weight: bold;font-size: 30px">
+                Total Harga : Rp. <span id="total_harga">0</span>
+            </span>
         </div>
     </div>
 </div>
@@ -56,7 +56,28 @@
         $('#transaksi_form').on('submit', function(event) {
             event.preventDefault();
             let count_data = 0;
+            $('.nama_barang').each(function() {
+                count_data += 1;
+            });
+            if (count_data > 0) {
+                console.log(count_data);
+                let form_data = $(this).serialize();
+                console.log(form_data);
+                $.ajax({
+                    url: "<?= base_url() ?>transaksi/tambahTransaksi",
+                    method: "POST",
+                    data: form_data,
+                    success: function(data) {
+                        if (confirm("Transaksi Sukses.\nApakah anda ingin mencetak data?")) {
 
+                        } else {
+                            location.reload();
+                        }
+                    }
+                })
+            } else {
+                alert("Transaksi anda masih kosong!!!");
+            }
         });
     });
     let harga = 0;
@@ -93,7 +114,7 @@
                                     ${jumlah_beli * hasil.harga_stok}
                                 </td>
                                 <td>
-                                    <button class="btn btn-warning" onclick="editProduk('${num}')">Edit</button>
+                                    <a class="btn btn-warning" onclick="editProduk('${num}')">Edit</a>
                                     <button class="btn btn-danger" onclick="hapusProduk('${num}')">Hapus</button>
                                 </td>
                                 </tr>`);
@@ -109,6 +130,7 @@
                         );
                     harga += jumlah_beli * hasil.harga_stok;
                     $('#total_harga').html(harga);
+                    $(`[name="total_harga_form"]`).val(harga);
                 }
             })
             $('#jumlah_beli').val('');
@@ -129,6 +151,7 @@
             document.getElementById(`harga_barang${id}`).value = `${current_qty_update * current_price}`;
             document.getElementById(`jumlah_barang${id}`).value = `${current_qty_update}`;
             $('#total_harga').html(harga);
+            $(`[name="total_harga_form"]`).val(harga);
         } else {
             alert("Jumlah minimal 1");
         }
@@ -138,10 +161,9 @@
         let current_subtotal = document.getElementById(`subtotal-${id}`).innerText;
         harga -= current_subtotal;
         $('#total_harga').html(harga);
+        $(`[name="total_harga_form"]`).val(harga);
         $(`#produk_${id}`).remove();
         $(`#form_${id}`).remove();
-        // var row = document.getElementById(`produk[${id}]`);
-        // row.parentNode.removeChild(row);
     }
 
     function cetakTransaksi() {

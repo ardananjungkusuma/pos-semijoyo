@@ -9,7 +9,6 @@
     </div>
     <div class="card-body">
         <a href="<?= base_url() ?>hutang/tambah" class="btn btn-sm btn-success shadow-sm mb-3"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
-        <a href="<?= base_url() ?>hutang/cetakPDF" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Semua Data</a>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="listPengutang">
                 <thead style="background-color: #4e73df;color:white">

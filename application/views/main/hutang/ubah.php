@@ -27,9 +27,8 @@
                 <input type="number" id="jumlah_hutang" required value="<?= $hutang->jumlah_hutang ?>" name="jumlah_hutang" class="form-control mb-2" placeholder="500000">
                 <label>Status Hutang</label>
                 <select class="form-control" id="status" name="status">
-                    <option value="<?= $hutang->status ?>"><?= $hutang->status ?></option>
-                    <option value="Lunas">Lunas</option>
-                    <option value="Belum Lunas">Belum Lunas</option>
+                    <option value="Lunas" <?php if ($hutang->status == "Lunas") { ?>selected<?php } ?>>Lunas</option>
+                    <option value="Belum Lunas" <?php if ($hutang->status == "Belum Lunas") { ?>selected<?php } ?>>Belum Lunas</option>
                 </select>
             </div>
             <a href=" <?= base_url() ?>hutang" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>

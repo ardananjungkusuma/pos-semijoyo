@@ -11,8 +11,15 @@ class Transaksi_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getTransaksiFilterDate($tgl_awal, $tgl_akhir)
+    {
+        $query = $this->db->query("SELECT * FROM transaksi WHERE tanggal_transaksi BETWEEN '$tgl_awal' AND '$tgl_akhir'");
+        return $query->result_array();
+    }
+
     public function tambahTransaksi()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $invoice = "INV" . date('dmYhis');
         $data_transaksi = [
             "id_transaksi" => $invoice,
@@ -23,9 +30,6 @@ class Transaksi_model extends CI_Model
         $this->db->insert('transaksi', $data_transaksi);
 
         $count_barang = count($_POST['hidden_nama_barang']);
-        // $nama_barang = $this->input->post('hidden_nama_barang[]');
-        // $jumlah_barang = $this->input->post('hidden_jumlah_barang[]');
-        // $harga_barang = $this->input->post('hidden_harga_barang[]');
 
         for ($count = 0; $count < $count_barang; $count++) {
             $data_transaksi_detail = array(
@@ -36,12 +40,16 @@ class Transaksi_model extends CI_Model
             );
             $this->db->insert('transaksidetail', $data_transaksi_detail);
         }
-        // $this->db->insert_batch('transaksidetail', $data_transaksi_detail);
     }
 
-    public function hapusStok($id)
+    public function detailTransaksiByInvoice($invoice)
     {
-        $this->db->where('id_stok', $id);
-        $this->db->delete('stokpenjualan');
+        return $this->db->get_where('transaksidetail', array('id_transaksi' => $invoice))->result();
+    }
+
+    public function hapusTransaksi($invoice)
+    {
+        $this->db->where('id_transaksi', $invoice);
+        $this->db->delete('transaksi');
     }
 }

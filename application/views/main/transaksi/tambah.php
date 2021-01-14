@@ -1,6 +1,6 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Kasir</h1>
+    <h1 class="h3 mb-0 text-gray-800">Kasir Toko Semi Joyo</h1>
 </div>
 
 <div class="card shadow mb-4">
@@ -10,9 +10,9 @@
     <div class="card-body">
         <b style="color: red;"><?= validation_errors(); ?></b>
         <div class="form-group">
-            <label>Tanggal Pembelian : </label>
+            <label style="font-weight: bold;">Tanggal Pembelian : </label>
             <label id="date"><?= date('d-m-Y') ?></label><br>
-            <label>Nama Distributor</label>
+            <label style="font-weight: bold;">Nama Barang</label>
             <select class="js-example-basic-single form-control" id="id_stok" name="id_stok" required>
                 <option value="Pilih Barang">Pilih Barang</option>
                 <?php foreach ($stok as $s) {
@@ -20,7 +20,7 @@
                     <option value="<?= $s['id_stok'] ?>"><?= $s['nama_stok'] ?></option>
                 <?php              } ?>
             </select>
-            <label>Jumlah Barang</label>
+            <label style="font-weight: bold;">Jumlah Barang</label>
             <input type="number" id="jumlah_beli" name="jumlah_beli" class="form-control mb-2" placeholder="0" required>
         </div>
         <a href="<?= base_url() ?>transaksi" class="btn btn-sm btn-info shadow-sm mb-3"><i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
@@ -60,15 +60,14 @@
                 count_data += 1;
             });
             if (count_data > 0) {
-                console.log(count_data);
                 let form_data = $(this).serialize();
-                console.log(form_data);
                 $.ajax({
                     url: "<?= base_url() ?>transaksi/tambahTransaksi",
                     method: "POST",
                     data: form_data,
                     success: function(data) {
                         if (confirm("Transaksi Sukses.\nApakah anda ingin mencetak data?")) {
+                            location.reload();
 
                         } else {
                             location.reload();
@@ -94,7 +93,7 @@
         let id_stok = $('#id_stok').val();
         let jumlah_beli = $('#jumlah_beli').val();
         num = num + 1;
-        if (jumlah_beli > 0) {
+        if (jumlah_beli > 0 && id_stok != "Pilih Barang") {
             $.ajax({
                 type: 'POST',
                 data: `id_stok=${id_stok}`,
@@ -114,7 +113,7 @@
                                     ${jumlah_beli * hasil.harga_stok}
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning" onclick="editProduk('${num}')">Edit</a>
+                                    <a class="btn btn-warning" onclick="editProduk('${num}')">Edit Qty</a>
                                     <button class="btn btn-danger" onclick="hapusProduk('${num}')">Hapus</button>
                                 </td>
                                 </tr>`);
@@ -136,7 +135,7 @@
             $('#jumlah_beli').val('');
 
         } else {
-            alert("Jumlah Beli Tidak Bisa Kurang Dari 0");
+            alert("Jumlah Beli Tidak Bisa Kurang Dari 0 dan Anda harus memilih barang.");
         }
     }
 
@@ -154,6 +153,7 @@
             $(`[name="total_harga_form"]`).val(harga);
         } else {
             alert("Jumlah minimal 1");
+            $(`[name="qty_beli-${id}"]`).val('1');
         }
     }
 
@@ -164,17 +164,5 @@
         $(`[name="total_harga_form"]`).val(harga);
         $(`#produk_${id}`).remove();
         $(`#form_${id}`).remove();
-    }
-
-    function cetakTransaksi() {
-        let invoice = "INV" + new Date().getTime();
-        if (harga > 0) {
-            if (confirm("Yakin ingin Bayar?")) {
-
-                console.log(`${invoice}\n`);
-            }
-        } else {
-            alert("Cetak Gagal (Transaksi Kosong)");
-        }
     }
 </script>

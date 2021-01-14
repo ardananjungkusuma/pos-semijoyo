@@ -15,8 +15,18 @@ class Transaksi extends CI_Controller
 
     public function index()
     {
+        $tgl_awal =  $this->uri->segment(3);
+        $tgl_akhir =  $this->uri->segment(4);
+
         $data['title'] = 'Semi Joyo';
-        $data['transaksi'] = $this->transaksi_model->getAllTransaksi();
+        if (!empty($tgl_awal) && !empty($tgl_akhir)) {
+            $data['transaksi'] = $this->transaksi_model->getTransaksiFilterDate($tgl_awal, $tgl_akhir);
+            $data['filter'] = true;
+        } else {
+            $data['filter'] = false;
+            $data['transaksi'] = $this->transaksi_model->getAllTransaksi();
+        }
+
         $this->load->view('main/header', $data);
         $this->load->view('main/sidebar');
         $this->load->view('main/topbar');
@@ -70,11 +80,19 @@ class Transaksi extends CI_Controller
         }
     }
 
-    public function hapus($id)
+    public function hapus($invoice)
     {
-        $this->stokpenjualan_model->hapusStok($id);
-        $this->session->set_flashdata('flash-data', 'Dihapus');
-        redirect('stokpenjualan');
+        $this->transaksi_model->hapusTransaksi($invoice);
+        $this->session->set_flashdata(
+            'message',
+            '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Data Transaksi telah dihapus.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>'
+        );
+        redirect('transaksi');
     }
 
     public function cetakPDF()
@@ -90,5 +108,11 @@ class Transaksi extends CI_Controller
     {
         $this->transaksi_model->tambahTransaksi();
         //return nota
+    }
+
+    public function detailTransaksi($invoice)
+    {
+        $detailTransaksi = $this->transaksi_model->detailTransaksiByInvoice($invoice);
+        echo json_encode($detailTransaksi);
     }
 }

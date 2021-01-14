@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2020 at 03:54 PM
+-- Generation Time: Jan 14, 2021 at 07:06 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -43,7 +43,9 @@ CREATE TABLE `barang` (
 
 INSERT INTO `barang` (`id_barang`, `id_distributor`, `nama_barang`, `satuan_barang`, `jumlah_barang`, `harga_barang`, `tanggal_beli`) VALUES
 (1, 2, 'Pakan Kucing (Excel)', 'Karung', 2, '250000', '2020-11-05'),
-(2, 1, 'Anti Saraf', 'Dus', 2, '150000', '2020-11-05');
+(2, 1, 'Anti Saraf', 'Dus', 2, '150000', '2020-11-05'),
+(4, 1, 'Suara Emas', 'Dus', 4, '350000', '2021-01-12'),
+(5, 1, 'Millet', 'Karung', 5, '1875000', '2021-01-12');
 
 -- --------------------------------------------------------
 
@@ -110,7 +112,9 @@ CREATE TABLE `stokpenjualan` (
 
 INSERT INTO `stokpenjualan` (`id_stok`, `nama_stok`, `harga_stok`, `satuan_stok`) VALUES
 (1, 'Pakan Kucing (Excel)', '12000', 'pcs'),
-(2, 'Anti Saraf', '10000', 'botol');
+(2, 'Anti Saraf', '10000', 'botol'),
+(3, 'Suara Emas', '6000', 'pcs'),
+(4, 'Millet', '16000', 'kg');
 
 -- --------------------------------------------------------
 
@@ -119,12 +123,21 @@ INSERT INTO `stokpenjualan` (`id_stok`, `nama_stok`, `harga_stok`, `satuan_stok`
 --
 
 CREATE TABLE `transaksi` (
-  `id_transaksi` varchar(100) NOT NULL,
-  `id_transaksi_detail` int(11) NOT NULL,
+  `id_transaksi` varchar(250) NOT NULL,
   `tanggal_transaksi` date NOT NULL,
   `jam_transaksi` varchar(9) NOT NULL,
   `total_harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `tanggal_transaksi`, `jam_transaksi`, `total_harga`) VALUES
+('INV14012021064651', '2021-01-14', '06:46:51', 18000),
+('INV14012021065207', '2021-01-14', '06:52:07', 10000),
+('INV14012021065218', '2021-01-14', '06:52:18', 50000),
+('INV14012021070036', '2021-01-14', '07:00:36', 30000);
 
 -- --------------------------------------------------------
 
@@ -134,10 +147,24 @@ CREATE TABLE `transaksi` (
 
 CREATE TABLE `transaksidetail` (
   `id_transaksi_detail` int(11) NOT NULL,
+  `id_transaksi` varchar(250) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `jumlah_barang` varchar(5) NOT NULL,
   `harga_barang` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksidetail`
+--
+
+INSERT INTO `transaksidetail` (`id_transaksi_detail`, `id_transaksi`, `nama_barang`, `jumlah_barang`, `harga_barang`) VALUES
+(89, 'INV14012021064651', 'Pakan Kucing (Excel)', '1', '12000'),
+(90, 'INV14012021064651', 'Suara Emas', '1', '6000'),
+(91, 'INV14012021065207', 'Anti Saraf', '1', '10000'),
+(92, 'INV14012021065218', 'Suara Emas', '1', '6000'),
+(93, 'INV14012021065218', 'Millet', '2', '32000'),
+(94, 'INV14012021065218', 'Pakan Kucing (Excel)', '1', '12000'),
+(95, 'INV14012021070036', 'Anti Saraf', '3', '30000');
 
 -- --------------------------------------------------------
 
@@ -194,14 +221,14 @@ ALTER TABLE `stokpenjualan`
 -- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id_transaksi`),
-  ADD KEY `id_transaksi_detail` (`id_transaksi_detail`);
+  ADD PRIMARY KEY (`id_transaksi`);
 
 --
 -- Indexes for table `transaksidetail`
 --
 ALTER TABLE `transaksidetail`
-  ADD PRIMARY KEY (`id_transaksi_detail`);
+  ADD PRIMARY KEY (`id_transaksi_detail`),
+  ADD KEY `id_transaksi` (`id_transaksi`);
 
 --
 -- Indexes for table `user`
@@ -217,7 +244,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `distributor`
@@ -235,13 +262,13 @@ ALTER TABLE `hutang`
 -- AUTO_INCREMENT for table `stokpenjualan`
 --
 ALTER TABLE `stokpenjualan`
-  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `transaksidetail`
 --
 ALTER TABLE `transaksidetail`
-  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -260,10 +287,10 @@ ALTER TABLE `barang`
   ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`id_distributor`) REFERENCES `distributor` (`id_distributor`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `transaksi`
+-- Constraints for table `transaksidetail`
 --
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_transaksi_detail`) REFERENCES `transaksidetail` (`id_transaksi_detail`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `transaksidetail`
+  ADD CONSTRAINT `transaksidetail_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

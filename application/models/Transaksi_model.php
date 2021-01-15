@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Transaksi_model extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        date_default_timezone_set('Asia/Jakarta');
+    }
+
 
     public function getAllTransaksi()
     {
@@ -17,9 +23,191 @@ class Transaksi_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getTotalPendapatanHariIni()
+    {
+        $today = date('y-m-d');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_pendapatan FROM transaksi WHERE tanggal_transaksi = '$today'");
+        return $query->row();
+    }
+
+    public function getTotalPendapatanBulanIni()
+    {
+        $monthly = date('y-m');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_pendapatan_bulan_ini FROM transaksi WHERE tanggal_transaksi LIKE '%$monthly%'");
+        return $query->row();
+    }
+
+    public function getTotalTransaksiHariIni()
+    {
+        $today = date('y-m-d');
+        $query = $this->db->query("SELECT COUNT(id_transaksi) as total_transaksi FROM transaksi WHERE tanggal_transaksi = '$today'");
+        return $query->row();
+    }
+
+    public function getTotalHutang()
+    {
+        $query = $this->db->query("SELECT SUM(jumlah_hutang) AS jumlah_hutang FROM hutang WHERE status = 'Belum Lunas'");
+        return $query->row();
+    }
+
+    public function getJanuari()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-01%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getFebruari()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-02%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getMaret()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-03%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getApril()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-04%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getMei()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-05%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getJuni()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-06%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getJuli()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-07%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getAgustus()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-08%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getSeptember()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-09%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getOktober()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-10%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getNovember()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-11%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
+    public function getDesember()
+    {
+        $year = date('y');
+        $query = $this->db->query("SELECT SUM(total_harga) as total_harga FROM transaksi WHERE tanggal_transaksi LIKE '%$year-12%'");
+        if ($query->row()->total_harga != NULL) {
+            return $query->row();
+        } else {
+            return $row = (object) array(
+                "total_harga" => "0"
+            );
+        }
+    }
+
     public function tambahTransaksi()
     {
-        date_default_timezone_set('Asia/Jakarta');
         $invoice = "INV" . date('dmYhis');
         $data_transaksi = [
             "id_transaksi" => $invoice,

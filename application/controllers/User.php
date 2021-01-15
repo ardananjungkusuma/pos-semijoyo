@@ -41,6 +41,21 @@ class User extends CI_Controller
 
     public function changePassword()
     {
+        $data['title'] = 'Change Password';
+        $this->load->view('main/header', $data);
+        $this->load->view('main/sidebar');
+        $this->load->view('main/topbar');
+        $this->load->view('main/user/change-password');
+        $this->load->view('main/footer');
+    }
+
+    public function postChangePassword()
+    {
+        $this->user_model->changePassword();
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Password sukses diganti!
+          </div>');
+        redirect('main');
     }
 
     public function userManagement()

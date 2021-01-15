@@ -13,6 +13,12 @@ class User_model extends CI_Model
 
     public function changePassword()
     {
+        $data = [
+            "password" => MD5($this->input->post('password', true)),
+
+        ];
+        $this->db->where('id_user', $this->session->userdata('id_user'));
+        $this->db->update('user', $data);
     }
 
     public function addUser()

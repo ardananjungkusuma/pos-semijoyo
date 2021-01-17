@@ -28,7 +28,6 @@
         <?php } ?>
         <button class="btn btn-sm btn-warning shadow-sm mb-3" onclick="filterDate()"><i class="fas fa-search fa-sm text-white-50"></i> Filter Data</button>
         <a href="<?= base_url() ?>transaksi/tambah" class="btn btn-sm btn-success shadow-sm mb-3" target="_blank"><i class="fas fa-plus fa-sm text-white-50"></i> Menu Kasir</a>
-        <a href="<?= base_url() ?>transaksi/cetakPDF" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Semua Data</a>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="listBarang">
                 <thead style="background-color: #4e73df;color:white">
@@ -51,7 +50,7 @@
                             <td><?= number_format($t['total_harga'], 0, ',', '.') ?></td>
                             <td>
                                 <button data-toggle="modal" data-target="#detailModal" class="btn btn-warning" onclick="detailTransaksi('<?= $t['id_transaksi'] ?>','<?= number_format($t['total_harga'], 0, ',', '.') ?>')"><i class="fa fa-eye"></i> Detail</button>
-                                <a href="<?= base_url() ?>transaksi/ubah/<?= $t['id_transaksi'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Cetak Nota</a>
+                                <a href="<?= base_url() ?>transaksi/cetakInvoice/<?= $t['id_transaksi'] ?>" target="_blank" class="btn btn-success"><i class="fa fa-download"></i> Cetak Nota</a>
                                 <a href="<?= base_url() ?>transaksi/hapus/<?= $t['id_transaksi'] ?>" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Transaksi <?= $t['id_transaksi'] ?>?\nDetail pembelian barang akan ikut terhapus juga saat anda menghapus transaksi ini. Hapus?');" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                             </td>
                         </tr>

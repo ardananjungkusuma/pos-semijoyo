@@ -66,14 +66,15 @@
                     method: "POST",
                     data: form_data,
                     success: function(data) {
+                        // console.log(JSON.parse(data).d);
+                        console.log(data);
+                        console.log(data);
                         if (confirm("Transaksi Sukses.\nApakah anda ingin mencetak data?")) {
-                            location.reload();
-
-                        } else {
-                            location.reload();
+                            window.open(`<?= base_url() ?>transaksi/cetakInvoice/${data}`, '_blank');
                         }
                     }
                 })
+                // location.reload();
             } else {
                 alert("Transaksi anda masih kosong!!!");
             }

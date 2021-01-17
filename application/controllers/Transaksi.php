@@ -95,19 +95,17 @@ class Transaksi extends CI_Controller
         redirect('transaksi');
     }
 
-    public function cetakPDF()
+    public function cetakInvoice($invoice)
     {
-        $data['stok'] = $this->stokpenjualan_model->getAllStok();
-        $this->load->library('pdf');
-        $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan_stokpenjualan_" . date('d-m-Y') . ".pdf";
-        $this->pdf->load_view('main/stokpenjualan/pdf', $data);
+        $data['transaksidetail'] = $this->transaksi_model->getTransaksiDetailByInvoice($invoice);
+        $data['transaksi'] = $this->transaksi_model->getTransaksiByInvoice($invoice);
+        $this->load->view('main/transaksi/invoice', $data);
     }
 
     public function tambahTransaksi()
     {
-        $this->transaksi_model->tambahTransaksi();
-        //return nota
+        $data = $this->transaksi_model->tambahTransaksi();
+        return json_encode($data);
     }
 
     public function detailTransaksi($invoice)

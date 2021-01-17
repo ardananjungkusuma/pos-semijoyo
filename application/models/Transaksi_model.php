@@ -17,6 +17,18 @@ class Transaksi_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getTransaksiByInvoice($invoice)
+    {
+        $query = $this->db->query("SELECT * FROM transaksi WHERE id_transaksi LIKE '%$invoice%'");
+        return $query->row();
+    }
+
+    public function getTransaksiDetailByInvoice($invoice)
+    {
+        $query = $this->db->query("SELECT * FROM transaksidetail WHERE id_transaksi LIKE '%$invoice%'");
+        return $query->result_array();
+    }
+
     public function getTransaksiFilterDate($tgl_awal, $tgl_akhir)
     {
         $query = $this->db->query("SELECT * FROM transaksi WHERE tanggal_transaksi BETWEEN '$tgl_awal' AND '$tgl_akhir'");
@@ -228,6 +240,7 @@ class Transaksi_model extends CI_Model
             );
             $this->db->insert('transaksidetail', $data_transaksi_detail);
         }
+        return $invoice;
     }
 
     public function detailTransaksiByInvoice($invoice)

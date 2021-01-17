@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2021 at 07:06 AM
+-- Generation Time: Jan 15, 2021 at 10:07 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `barang` (
   `id_barang` int(11) NOT NULL,
   `id_distributor` int(11) NOT NULL,
-  `nama_barang` varchar(50) NOT NULL,
+  `nama_barang` varchar(250) NOT NULL,
   `satuan_barang` varchar(10) NOT NULL,
   `jumlah_barang` int(11) NOT NULL,
   `harga_barang` varchar(15) NOT NULL,
@@ -45,7 +45,9 @@ INSERT INTO `barang` (`id_barang`, `id_distributor`, `nama_barang`, `satuan_bara
 (1, 2, 'Pakan Kucing (Excel)', 'Karung', 2, '250000', '2020-11-05'),
 (2, 1, 'Anti Saraf', 'Dus', 2, '150000', '2020-11-05'),
 (4, 1, 'Suara Emas', 'Dus', 4, '350000', '2021-01-12'),
-(5, 1, 'Millet', 'Karung', 5, '1875000', '2021-01-12');
+(5, 1, 'Millet', 'Karung', 5, '1875000', '2021-01-12'),
+(6, 1, 'Kurungan Octagon Kotak Standart', 'Dus', 5, '5000000', '2021-01-14'),
+(7, 1, 'Kurungan Octagon Bulat Size Standart', 'dus', 2, '1200000', '2021-01-14');
 
 -- --------------------------------------------------------
 
@@ -91,7 +93,8 @@ CREATE TABLE `hutang` (
 
 INSERT INTO `hutang` (`id_hutang`, `nama_pengutang`, `no_telpon`, `alamat`, `tanggal_hutang`, `jumlah_hutang`, `catatan_hutang`, `status`) VALUES
 (2, 'Kasbi', '08124562837', '-', '2020-11-05', '15000', 'Hutang belum bayar pakan kucing', 'Lunas'),
-(3, 'Riza', '0812485938', 'Kalitidu', '2020-11-05', '250000', 'Hutang kurungan', 'Belum Lunas');
+(3, 'Riza', '0812485938', 'Kalitidu', '2020-11-05', '250000', 'Hutang kurungan', 'Belum Lunas'),
+(4, 'Nur', '08123456789', 'Kapas', '2021-01-14', '120000', 'Hutang Kurungan Kapsul', 'Belum Lunas');
 
 -- --------------------------------------------------------
 
@@ -101,7 +104,7 @@ INSERT INTO `hutang` (`id_hutang`, `nama_pengutang`, `no_telpon`, `alamat`, `tan
 
 CREATE TABLE `stokpenjualan` (
   `id_stok` int(11) NOT NULL,
-  `nama_stok` varchar(200) NOT NULL,
+  `nama_stok` varchar(250) NOT NULL,
   `harga_stok` varchar(15) NOT NULL,
   `satuan_stok` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -114,7 +117,9 @@ INSERT INTO `stokpenjualan` (`id_stok`, `nama_stok`, `harga_stok`, `satuan_stok`
 (1, 'Pakan Kucing (Excel)', '12000', 'pcs'),
 (2, 'Anti Saraf', '10000', 'botol'),
 (3, 'Suara Emas', '6000', 'pcs'),
-(4, 'Millet', '16000', 'kg');
+(4, 'Millet', '16000', 'kg'),
+(5, 'Kurungan Octagon Kotak Standart', '150000', 'kurungan'),
+(6, 'Kurungan Octagon Bulat Size Standart', '120000', 'kurungan');
 
 -- --------------------------------------------------------
 
@@ -134,10 +139,15 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `tanggal_transaksi`, `jam_transaksi`, `total_harga`) VALUES
-('INV14012021064651', '2021-01-14', '06:46:51', 18000),
-('INV14012021065207', '2021-01-14', '06:52:07', 10000),
-('INV14012021065218', '2021-01-14', '06:52:18', 50000),
-('INV14012021070036', '2021-01-14', '07:00:36', 30000);
+('INV14012021011955', '2021-01-12', '13:19:55', 12000),
+('INV14012021013648', '2021-01-13', '09:36:48', 12000),
+('INV14012021013725', '2021-01-14', '13:37:25', 42000),
+('INV14012021065352', '2021-01-14', '18:53:52', 150000),
+('INV14012021065629', '2021-01-14', '18:56:29', 152000),
+('INV14012021082219', '2021-01-14', '20:22:19', 248000),
+('INV15012021025415', '2021-02-15', '14:54:15', 38000),
+('INV15012021040352', '2021-01-15', '16:03:52', 320000),
+('INV15012021040401', '2021-01-15', '16:04:01', 160000);
 
 -- --------------------------------------------------------
 
@@ -148,7 +158,7 @@ INSERT INTO `transaksi` (`id_transaksi`, `tanggal_transaksi`, `jam_transaksi`, `
 CREATE TABLE `transaksidetail` (
   `id_transaksi_detail` int(11) NOT NULL,
   `id_transaksi` varchar(250) NOT NULL,
-  `nama_barang` varchar(100) NOT NULL,
+  `nama_barang` varchar(250) NOT NULL,
   `jumlah_barang` varchar(5) NOT NULL,
   `harga_barang` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -158,13 +168,24 @@ CREATE TABLE `transaksidetail` (
 --
 
 INSERT INTO `transaksidetail` (`id_transaksi_detail`, `id_transaksi`, `nama_barang`, `jumlah_barang`, `harga_barang`) VALUES
-(89, 'INV14012021064651', 'Pakan Kucing (Excel)', '1', '12000'),
-(90, 'INV14012021064651', 'Suara Emas', '1', '6000'),
-(91, 'INV14012021065207', 'Anti Saraf', '1', '10000'),
-(92, 'INV14012021065218', 'Suara Emas', '1', '6000'),
-(93, 'INV14012021065218', 'Millet', '2', '32000'),
-(94, 'INV14012021065218', 'Pakan Kucing (Excel)', '1', '12000'),
-(95, 'INV14012021070036', 'Anti Saraf', '3', '30000');
+(1, 'INV14012021011955', 'Pakan Kucing (Excel)', '1', '12000'),
+(3, 'INV14012021013648', 'Pakan Kucing (Excel)', '1', '12000'),
+(4, 'INV14012021013725', 'Millet', '2', '32000'),
+(5, 'INV14012021013725', 'Anti Saraf', '1', '10000'),
+(6, 'INV14012021065352', 'Kurungan Octagon Kotak Standart', '1', '150000'),
+(7, 'INV14012021065629', 'Kurungan Octagon Bulat Size Standart', '1', '120000'),
+(8, 'INV14012021065629', 'Millet', '2', '32000'),
+(9, 'INV14012021082219', 'Pakan Kucing (Excel)', '1', '12000'),
+(10, 'INV14012021082219', 'Anti Saraf', '1', '10000'),
+(11, 'INV14012021082219', 'Suara Emas', '2', '12000'),
+(12, 'INV14012021082219', 'Millet', '4', '64000'),
+(13, 'INV14012021082219', 'Kurungan Octagon Kotak Standart', '1', '150000'),
+(17, 'INV15012021025415', 'Millet', '2', '32000'),
+(18, 'INV15012021025415', 'Suara Emas', '1', '6000'),
+(19, 'INV15012021040352', 'Kurungan Octagon Bulat Size Standart', '2', '240000'),
+(20, 'INV15012021040352', 'Millet', '5', '80000'),
+(21, 'INV15012021040401', 'Anti Saraf', '1', '10000'),
+(22, 'INV15012021040401', 'Kurungan Octagon Kotak Standart', '1', '150000');
 
 -- --------------------------------------------------------
 
@@ -186,7 +207,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama_user`, `username`, `email`, `password`, `level`) VALUES
-(1, 'Ardan Anjung', 'ardan', 'ardananjungkusuma@gmail.com', 'd2219d75098abd01493908d2f7f4d13d', 1);
+(1, 'Ardan Anjung', 'ardan', 'ardananjungkusuma@gmail.com', 'd2219d75098abd01493908d2f7f4d13d', 1),
+(2, 'Amel', 'amel', 'amel@gmail.com', 'e5796cb0dc9d20918634e9b70b2c0fdd', 2),
+(3, 'Efie', 'efie', 'efie@gmail.com', 'c5e3cf3ce1b024a0a47f529a6fbfc84b', 2);
 
 --
 -- Indexes for dumped tables
@@ -244,7 +267,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `distributor`
@@ -256,25 +279,25 @@ ALTER TABLE `distributor`
 -- AUTO_INCREMENT for table `hutang`
 --
 ALTER TABLE `hutang`
-  MODIFY `id_hutang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_hutang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `stokpenjualan`
 --
 ALTER TABLE `stokpenjualan`
-  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `transaksidetail`
 --
 ALTER TABLE `transaksidetail`
-  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

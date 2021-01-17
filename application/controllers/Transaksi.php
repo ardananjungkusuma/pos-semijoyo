@@ -105,7 +105,8 @@ class Transaksi extends CI_Controller
     public function tambahTransaksi()
     {
         $data = $this->transaksi_model->tambahTransaksi();
-        return json_encode($data);
+        // $json = array(invoice => $data);
+        echo $data;
     }
 
     public function detailTransaksi($invoice)

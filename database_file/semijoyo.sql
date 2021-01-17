@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2021 at 10:07 AM
+-- Generation Time: Jan 17, 2021 at 03:42 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -47,7 +47,8 @@ INSERT INTO `barang` (`id_barang`, `id_distributor`, `nama_barang`, `satuan_bara
 (4, 1, 'Suara Emas', 'Dus', 4, '350000', '2021-01-12'),
 (5, 1, 'Millet', 'Karung', 5, '1875000', '2021-01-12'),
 (6, 1, 'Kurungan Octagon Kotak Standart', 'Dus', 5, '5000000', '2021-01-14'),
-(7, 1, 'Kurungan Octagon Bulat Size Standart', 'dus', 2, '1200000', '2021-01-14');
+(7, 1, 'Kurungan Octagon Bulat Size Standart', 'dus', 2, '1200000', '2021-01-14'),
+(8, 2, 'Mbah Joyo', 'Lonjor', 3, '64000', '2021-01-17');
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,21 @@ INSERT INTO `transaksi` (`id_transaksi`, `tanggal_transaksi`, `jam_transaksi`, `
 ('INV14012021082219', '2021-01-14', '20:22:19', 248000),
 ('INV15012021025415', '2021-02-15', '14:54:15', 38000),
 ('INV15012021040352', '2021-01-15', '16:03:52', 320000),
-('INV15012021040401', '2021-01-15', '16:04:01', 160000);
+('INV15012021040401', '2021-01-15', '16:04:01', 160000),
+('INV17012021053053', '2021-01-17', '17:30:53', 156000),
+('INV17012021054442', '2021-01-17', '17:44:42', 136000),
+('INV17012021054924', '2021-01-17', '17:49:24', 42000),
+('INV17012021055103', '2021-01-17', '17:51:03', 42000),
+('INV17012021055525', '2021-01-17', '17:55:25', 20000),
+('INV17012021055531', '2021-01-17', '17:55:31', 6000),
+('INV17012021055732', '2021-01-17', '17:57:32', 10000),
+('INV17012021074710', '2021-01-17', '19:47:10', 26000),
+('INV17012021075803', '2021-01-17', '19:58:03', 42000),
+('INV17012021075837', '2021-01-17', '19:58:37', 24000),
+('INV17012021075934', '2021-01-17', '19:59:34', 32000),
+('INV17012021080137', '2021-01-17', '20:01:37', 42000),
+('INV17012021080214', '2021-01-17', '20:02:14', 12000),
+('INV17012021080320', '2021-01-17', '20:03:20', 430000);
 
 -- --------------------------------------------------------
 
@@ -185,7 +200,31 @@ INSERT INTO `transaksidetail` (`id_transaksi_detail`, `id_transaksi`, `nama_bara
 (19, 'INV15012021040352', 'Kurungan Octagon Bulat Size Standart', '2', '240000'),
 (20, 'INV15012021040352', 'Millet', '5', '80000'),
 (21, 'INV15012021040401', 'Anti Saraf', '1', '10000'),
-(22, 'INV15012021040401', 'Kurungan Octagon Kotak Standart', '1', '150000');
+(22, 'INV15012021040401', 'Kurungan Octagon Kotak Standart', '1', '150000'),
+(35, 'INV17012021053053', 'Suara Emas', '1', '6000'),
+(36, 'INV17012021053053', 'Kurungan Octagon Kotak Standart', '1', '150000'),
+(51, 'INV17012021054442', 'Millet', '1', '16000'),
+(52, 'INV17012021054442', 'Kurungan Octagon Bulat Size Standart', '1', '120000'),
+(53, 'INV17012021054924', 'Anti Saraf', '1', '10000'),
+(54, 'INV17012021054924', 'Millet', '2', '32000'),
+(55, 'INV17012021055103', 'Pakan Kucing (Excel)', '3', '36000'),
+(56, 'INV17012021055103', 'Suara Emas', '1', '6000'),
+(57, 'INV17012021055525', 'Anti Saraf', '2', '20000'),
+(58, 'INV17012021055531', 'Suara Emas', '1', '6000'),
+(59, 'INV17012021055732', 'Anti Saraf', '1', '10000'),
+(60, 'INV17012021074710', 'Anti Saraf', '1', '10000'),
+(61, 'INV17012021074710', 'Millet', '1', '16000'),
+(62, 'INV17012021075803', 'Anti Saraf', '1', '10000'),
+(63, 'INV17012021075803', 'Millet', '2', '32000'),
+(64, 'INV17012021075837', 'Pakan Kucing (Excel)', '2', '24000'),
+(65, 'INV17012021075934', 'Anti Saraf', '2', '20000'),
+(66, 'INV17012021075934', 'Pakan Kucing (Excel)', '1', '12000'),
+(67, 'INV17012021080137', 'Anti Saraf', '1', '10000'),
+(68, 'INV17012021080137', 'Millet', '2', '32000'),
+(69, 'INV17012021080214', 'Suara Emas', '2', '12000'),
+(70, 'INV17012021080320', 'Anti Saraf', '1', '10000'),
+(71, 'INV17012021080320', 'Kurungan Octagon Kotak Standart', '2', '300000'),
+(72, 'INV17012021080320', 'Kurungan Octagon Bulat Size Standart', '1', '120000');
 
 -- --------------------------------------------------------
 
@@ -267,7 +306,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `distributor`
@@ -291,7 +330,7 @@ ALTER TABLE `stokpenjualan`
 -- AUTO_INCREMENT for table `transaksidetail`
 --
 ALTER TABLE `transaksidetail`
-  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_transaksi_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `user`

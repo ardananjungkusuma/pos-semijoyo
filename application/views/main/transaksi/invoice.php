@@ -11,7 +11,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body onload="window.print()">
+<body>
     <div id="invoice">
         <div class="invoice overflow-auto">
             <div style="min-width: 600px">
@@ -97,5 +97,18 @@
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(() => {
+        window.print();
+        window.onunload = refreshParent;
+
+        function refreshParent() {
+            window.opener.location.reload();
+        }
+        window.addEventListener('afterprint', (event) => {
+            window.close();
+        });
+    });
+</script>
 
 </html>

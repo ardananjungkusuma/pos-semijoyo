@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         <a href="<?= base_url() ?>barang/tambah" class="btn btn-sm btn-success shadow-sm mb-3"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
-        <a href="<?= base_url() ?>barang/cetakPDF" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-download fa-sm text-white-50"></i> Cetak Semua Data</a>
+        <a href="<?= base_url() ?>barang/exportExcel" target="_blank" class="btn btn-sm btn-primary shadow-sm mb-3"><i class="fas fa-file-excel fa-sm text-white-50"></i> Cetak Excel Kulak Barang</a>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="listBarang">
                 <thead style="background-color: #4e73df;color:white">

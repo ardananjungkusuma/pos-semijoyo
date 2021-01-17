@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Stokpenjualan extends CI_Controller
 {
@@ -77,13 +81,47 @@ class Stokpenjualan extends CI_Controller
         redirect('stokpenjualan');
     }
 
-    public function cetakPDF()
+    public function exportExcel()
     {
         $data['stok'] = $this->stokpenjualan_model->getAllStok();
-        $this->load->library('pdf');
-        $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan_stokpenjualan_" . date('d-m-Y') . ".pdf";
-        $this->pdf->load_view('main/stokpenjualan/pdf', $data);
+
+        $phpExcel = new Spreadsheet();
+        $date = date('d-m-Y');
+
+        $phpExcel->getProperties()->setCreator("Semi Joyo");
+        $phpExcel->getProperties()->setLastModifiedBy("Semi Joyo");
+        $phpExcel->getProperties()->setTitle("Data Stok Jual");
+        $phpExcel->getProperties()->setSubject("");
+        $phpExcel->getProperties()->setDescription("Data Stok Jual Semi Joyo");
+
+        $phpExcel->setActiveSheetIndex(0);
+        $phpExcel->getActiveSheet()->setCellValue('A1', 'Nomor');
+        $phpExcel->getActiveSheet()->setCellValue('B1', 'Nama Stok');
+        $phpExcel->getActiveSheet()->setCellValue('C1', 'Harga Stok');
+        $phpExcel->getActiveSheet()->setCellValue('D1', 'Satuan Stok');
+
+        $baris = 2;
+        $no = 1;
+        foreach ($data['stok'] as $data) {
+            $phpExcel->getActiveSheet()->setCellValue('A' . $baris, $no);
+            $phpExcel->getActiveSheet()->setCellValue('B' . $baris, $data['nama_stok']);
+            $phpExcel->getActiveSheet()->setCellValue('C' . $baris, $data['harga_stok']);
+            $phpExcel->getActiveSheet()->setCellValue('D' . $baris, $data['satuan_stok']);
+            $baris++;
+            $no++;
+        }
+
+        $filename = "Data Stok Jual (" . $date . ').xlsx';
+
+        $phpExcel->getActiveSheet()->setTitle("Data Stok Jual");
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+
+        $writer = IOFactory::createWriter($phpExcel, 'Xlsx');
+        $writer->save('php://output');
+
+        exit;
     }
 
     public function getStokPenjualan()

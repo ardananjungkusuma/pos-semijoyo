@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Barang extends CI_Controller
 {
@@ -83,12 +87,51 @@ class Barang extends CI_Controller
         redirect('barang');
     }
 
-    public function cetakPDF()
+    public function exportExcel()
     {
         $data['barang'] = $this->barang_model->getAllBarang();
-        $this->load->library('pdf');
-        $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan_barang_" . date('d-m-Y') . ".pdf";
-        $this->pdf->load_view('main/barang/pdf', $data);
+
+        $phpExcel = new Spreadsheet();
+        $date = date('d-m-Y');
+
+        $phpExcel->getProperties()->setCreator("Semi Joyo");
+        $phpExcel->getProperties()->setLastModifiedBy("Semi Joyo");
+        $phpExcel->getProperties()->setTitle("Data Barang");
+        $phpExcel->getProperties()->setSubject("");
+        $phpExcel->getProperties()->setDescription("Data Barang Semi Joyo");
+
+        $phpExcel->setActiveSheetIndex(0);
+        $phpExcel->getActiveSheet()->setCellValue('A1', 'Nomor');
+        $phpExcel->getActiveSheet()->setCellValue('B1', 'Nama Barang');
+        $phpExcel->getActiveSheet()->setCellValue('C1', 'Nama Distributor');
+        $phpExcel->getActiveSheet()->setCellValue('D1', 'Jumlah Barang');
+        $phpExcel->getActiveSheet()->setCellValue('E1', 'Total Harga Barang');
+        $phpExcel->getActiveSheet()->setCellValue('F1', 'Tanggal Pembelian');
+
+        $baris = 2;
+        $no = 1;
+        foreach ($data['barang'] as $data) {
+            $tanggal_beli = date("d-m-Y", strtotime($data['tanggal_beli']));
+            $phpExcel->getActiveSheet()->setCellValue('A' . $baris, $no);
+            $phpExcel->getActiveSheet()->setCellValue('B' . $baris, $data['nama_barang']);
+            $phpExcel->getActiveSheet()->setCellValue('C' . $baris, $data['nama_distributor']);
+            $phpExcel->getActiveSheet()->setCellValue('D' . $baris, $data['jumlah_barang'] . " " . $data['satuan_barang']);
+            $phpExcel->getActiveSheet()->setCellValue('E' . $baris, $data['harga_barang']);
+            $phpExcel->getActiveSheet()->setCellValue('F' . $baris, $tanggal_beli);
+            $baris++;
+            $no++;
+        }
+
+        $filename = "Data Barang (" . $date . ').xlsx';
+
+        $phpExcel->getActiveSheet()->setTitle("Data Barang");
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+
+        $writer = IOFactory::createWriter($phpExcel, 'Xlsx');
+        $writer->save('php://output');
+
+        exit;
     }
 }

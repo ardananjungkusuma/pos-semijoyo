@@ -11,6 +11,12 @@ class Barang_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getAllBarangExcel()
+    {
+        $query = $this->db->query("SELECT * FROM barang b JOIN distributor d ON b.id_distributor = d.id_distributor");
+        return $query->result();
+    }
+
     public function getBarangById($id)
     {
         $query = $this->db->query("SELECT * FROM barang b JOIN distributor d ON b.id_distributor = d.id_distributor WHERE b.id_barang = $id");

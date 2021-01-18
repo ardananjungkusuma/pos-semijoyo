@@ -63,6 +63,12 @@
             <span>Utang Piutang</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url() ?>utils/database">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Database</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

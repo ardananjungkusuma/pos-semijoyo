@@ -9,8 +9,6 @@ class Utils extends CI_Controller
         if (empty($this->session->userdata('level'))) {
             redirect('auth');
         }
-
-        $this->load->model('Utils_model');
     }
 
     public function backupDatabase()
